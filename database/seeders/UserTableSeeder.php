@@ -14,6 +14,20 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\User::class, 20)->create();
+        /*\App\Models\User::factory()->count(20)->create()->each(function ($book){
+            $books = factory(\App\Book::class)->make();
+        
+            
+        });
+
+        */
+
+        factory(App\User::class, 10)->create()->each(function($user){
+
+            $user->books()->save(factory(App\Book::class)->make());
+
+        });
+
+
     }
 }

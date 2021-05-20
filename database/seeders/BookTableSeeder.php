@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+
 class BookTableSeeder extends Seeder
 {
     /**
@@ -13,6 +14,6 @@ class BookTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Book::factory()->count(20)->create();
     }
 }
