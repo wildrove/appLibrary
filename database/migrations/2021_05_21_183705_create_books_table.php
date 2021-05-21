@@ -15,8 +15,9 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('rent_id');
             $table->unsignedBigInteger('user_id');
-
+            
             $table->string('name');
             $table->string('publisher');
             $table->string('author');
@@ -24,6 +25,8 @@ class CreateBooksTable extends Migration
             $table->string('description')->nullable();
             $table->string('slug');
             
+            
+            $table->foreign('rent_id')->references('id')->on('rents');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

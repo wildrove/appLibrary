@@ -27,7 +27,8 @@ class BookFactory extends Factory
             'author' => $this->faker->name,
             'year' => $this->faker->year,
             'description' => $this->faker->sentence,
-            'slug' => $this->faker->slug
+            'slug' => $this->faker->slug,
+            'user_id' => rand(1, \App\Models\User::count())
             
         ];
     }

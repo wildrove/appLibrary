@@ -30,11 +30,10 @@ class Book extends Model
       
     ];
 
-    public function user()
+    public function rent()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Rent::class);
     }
-
 
     
 }
