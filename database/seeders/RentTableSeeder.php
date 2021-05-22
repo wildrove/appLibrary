@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class RentSeeder extends Seeder
+class RentTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class RentSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Rent::factory()->count(10)->create();
     }
 }

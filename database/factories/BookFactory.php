@@ -28,6 +28,7 @@ class BookFactory extends Factory
             'year' => $this->faker->year,
             'description' => $this->faker->sentence,
             'slug' => $this->faker->slug,
+            'rent_id' => rand(1, \App\Models\Rent::count()),
             'user_id' => rand(1, \App\Models\User::count())
             
         ];
