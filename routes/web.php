@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\RentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +20,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return 'HELLO WORLDs!';
-});
+Route::get('/admin/users', [UserController::class, 'index']);
+Route::get('/admin/users/create', [UserController::class, 'create']);
