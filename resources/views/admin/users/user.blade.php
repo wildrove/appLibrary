@@ -20,6 +20,7 @@
             @endforeach
         </tbody>
     </table>
+    {{$users->links()}}
 </div>
-{{$users->onEachSide(5)->links()}}
+
 
