@@ -17,6 +17,7 @@ class UserFactory extends factory
        
         return [
             'name' => $this->faker->name,
+            'user_name' => $this->faker->firstName,
             'cpf' => $this->faker->cpf,
             'phone_number' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,

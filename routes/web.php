@@ -22,3 +22,4 @@ Route::get('/', function () {
 
 Route::get('/admin/users', [UserController::class, 'index']);
 Route::get('/admin/users/create', [UserController::class, 'create']);
+Route::post('/admin/users/store', [UserController::class, 'store']);

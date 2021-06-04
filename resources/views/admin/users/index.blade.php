@@ -4,6 +4,7 @@
         <tr>
             <th>ID</th>
             <th>NOME</th>
+            <th>USUARIO</th>
             <th>CPF</th>
             <th>EMAIL</th>
             <th>TELEFONE</th>
@@ -13,6 +14,7 @@
                 <tr>
                     <td>{{$user->id}}</td>
                     <td>{{$user->name}}</td>
+                    <td>{{$user->user_name}}</td>
                     <td>{{$user->cpf}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->phone_number}}</td>
@@ -22,5 +24,6 @@
     </table>
     {{$users->links()}}
 </div>
+
 
 

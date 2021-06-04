@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users = \App\Models\User::paginate(10);
 
-        return view('admin.users.user', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -37,7 +37,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = \App\Models\User::create($request->all());
+
+        return redirect('/admin/users');
     }
 
     /**
@@ -46,7 +48,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user)
     {
         //
     }
@@ -57,7 +59,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($user)
     {
         //
     }
@@ -69,7 +71,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $user)
     {
         //
     }
@@ -80,7 +82,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user)
     {
         //
     }
