@@ -20,6 +20,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/users', [UserController::class, 'index']);
-Route::get('/admin/users/create', [UserController::class, 'create']);
-Route::post('/admin/users/store', [UserController::class, 'store']);
+/*
+    Route::get('/admin/users', [UserController::class, 'index']);
+    Route::get('/admin/users/create', [UserController::class, 'create']);
+    Route::post('/admin/users/store', [UserController::class, 'store']);
+*/
+
+Route::prefix('admin')->namespace('Admin')->group(function(){
+    
+    Route::prefix('users')->group(function(){
+
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/create', [UserController::class, 'create']);
+        Route::post('/store', [UserController::class, 'store']);
+    });
+});
