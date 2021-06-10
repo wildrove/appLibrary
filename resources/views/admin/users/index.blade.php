@@ -1,32 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-    <div>
-        <h1>USUÁRIOS</h1>
-        <table class="table table-striped">
-            <tr>
-                <th>ID</th>
-                <th>NOME</th>
-                <th>USUARIO</th>
-                <th>CPF</th>
-                <th>EMAIL</th>
-                <th>TELEFONE</th>
-            </tr>
-            <tbody>
-                @foreach($users as $user)
-                    <tr>
-                        <td>{{$user->id}}</td>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->user_name}}</td>
-                        <td>{{$user->cpf}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->phone_number}}</td>
-                    </tr>    
-                @endforeach
-            </tbody>
-        </table>
-        {{$users->links()}}
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100 ver1 m-b-110">
+                <table data-vertable="ver1">
+                    <thead>
+                        <tr class="row100 head">
+                            <th class="column100 column1" data-column="column1">ID</th>
+                            <th class="column100 column2" data-column="column2">NOME</th>
+                            <th class="column100 column3" data-column="column3">USUÁRIO</th>
+                            <th class="column100 column4" data-column="column4">CPF</th>
+                            <th class="column100 column5" data-column="column5">TELEFONE</th>
+                            <th class="column100 column6" data-column="column6">EMAIL</th>
+                            <th class="column100 column7" data-column="column8">EDITAR</th>
+                            <th class="column100 column8" data-column="column8">REMOVER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            <tr class="row100">
+                                <td class="column100 column1" data-column="column1">{{$user->id}}</td>
+                                <td class="column100 column2" data-column="column2">{{$user->name}}</td>
+                                <td class="column100 column3" data-column="column3">{{$user->user_name}}</td>
+                                <td class="column100 column4" data-column="column4">{{$user->cpf}}</td>
+                                <td class="column100 column5" data-column="column5">{{$user->phone_number}}</td>
+                                <td class="column100 column6" data-column="column6">{{$user->email}}</td>
+                                <td>
+                                    <a href="" class="btn btn-warning btn-sm">EDITAR</a>
+                                </td>
+                                <td>
+                                    <a href="" class="btn btn-danger btn-sm">REMOVER</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="mt-4">
+                    {{$users->links()}}
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 @endsection
 
 
