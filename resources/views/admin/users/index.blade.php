@@ -5,9 +5,10 @@
     <div class="container-table100">
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">
-                <table data-vertable="ver1">
+                <a href="{{route('admin.users.create')}}" class=" justify-content-center btn btn-success btn-lg mb-4">Criar Loja</a>
+                <table class="text-center" data-vertable="ver1">
                     <thead>
-                        <tr class="row100 head">
+                        <tr class=" row100 head">
                             <th class="column100 column1" data-column="column1">ID</th>
                             <th class="column100 column2" data-column="column2">NOME</th>
                             <th class="column100 column3" data-column="column3">USUÁRIO</th>
@@ -27,11 +28,11 @@
                                 <td class="column100 column4" data-column="column4">{{$user->cpf}}</td>
                                 <td class="column100 column5" data-column="column5">{{$user->phone_number}}</td>
                                 <td class="column100 column6" data-column="column6">{{$user->email}}</td>
-                                <td>
-                                    <a href="" class="btn btn-warning btn-sm">EDITAR</a>
+                                <td class=" td-a-action">
+                                    <a href="{{route('admin.users.edit', ['user' => $user->id])}}" class="btn btn-warning btn-sm">EDITAR</a>
                                 </td>
-                                <td>
-                                    <a href="" class="btn btn-danger btn-sm">REMOVER</a>
+                                <td class="td-a-action">
+                                    <a href="{{route('admin.users.destroy', ['user' => $user->id])}}" class="btn btn-danger btn-sm ">REMOVER</a>
                                 </td>
                             </tr>
                         @endforeach

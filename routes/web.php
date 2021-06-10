@@ -26,12 +26,15 @@ Route::get('/', function () {
     Route::post('/admin/users/store', [UserController::class, 'store']);
 */
 
-Route::prefix('admin')->namespace('Admin')->group(function(){
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
     
-    Route::prefix('users')->group(function(){
+    Route::prefix('users')->name('users.')->group(function(){
 
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('/create', [UserController::class, 'create']);
-        Route::post('/store', [UserController::class, 'store']);
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::post('/update/{user}', [UserController::class, 'update'])->name('update');
+        Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
     });
 });

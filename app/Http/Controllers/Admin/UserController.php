@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-        //
+        
     }
 
     /**
@@ -84,6 +84,9 @@ class UserController extends Controller
      */
     public function destroy($user)
     {
-        //
+        $user = \App\Models\User::find($user);
+        $user->delete();
+
+        return redirect('/admin/users');
     }
 }

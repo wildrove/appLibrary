@@ -29,7 +29,7 @@ body, html {
 
 /* ------------------------------------ */
 a {
-	margin: 0px;
+	margin-left: 25px;
 	transition: all 0.4s;
 	-webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -43,6 +43,12 @@ a:focus {
 a:hover {
 	text-decoration: none;
 }
+
+.td-a-action:hover{
+  background-color: #f2f2f2 !important;
+  color: #fff;
+}
+
 
 /* ------------------------------------ */
 h1,h2,h3,h4,h5,h6 {margin: 0px;}
@@ -99,7 +105,7 @@ iframe {
 .container-table100 {
   width: 100%;
   min-height: 100vh;
-  background: #d1d1d1;
+  /*background: #d1d1d1; */
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -123,6 +129,7 @@ table {
   background-color: #fff;
 }
 
+
 th, td {
   font-weight: unset;
   padding-right: 10px;
@@ -134,8 +141,12 @@ th, td {
 }
 
 .column100.column1 {
-  width: 265px;
+  width: 80px;
   padding-left: 42px;
+}
+
+.column2 {
+  width: 200px;
 }
 
 .row100.head th {
@@ -153,7 +164,7 @@ th, td {
 [ Ver1 ]*/
 .table100.ver1 td {
   font-family: Montserrat-Regular;
-  font-size: 14px;
+  font-size: 16px;
   color: #808080;
   line-height: 1.4;
 }
@@ -184,6 +195,7 @@ th, td {
   background-color: #6c7ae0;
   color: #fff;
 }
+
 
 /*==================================================================
 [ Ver2 ]*/
