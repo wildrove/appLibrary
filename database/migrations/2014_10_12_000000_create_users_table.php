@@ -17,12 +17,13 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('user_name');
+            $table->enum('user_type', ['administrator', 'student'])->default('student');
             $table->string('cpf');
             $table->string('phone_number');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            
+
             $table->rememberToken();
             $table->timestamps();
         });

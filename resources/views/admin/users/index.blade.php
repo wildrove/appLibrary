@@ -15,8 +15,9 @@
                             <th class="column100 column4" data-column="column4">CPF</th>
                             <th class="column100 column5" data-column="column5">TELEFONE</th>
                             <th class="column100 column6" data-column="column6">EMAIL</th>
+                            <th class="column100 column4" data-column="column7">TIPO</th>
                             <th class="column100 column7" data-column="column8">EDITAR</th>
-                            <th class="column100 column8" data-column="column8">REMOVER</th>
+                            <th class="column100 column8" data-column="column9">REMOVER</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +29,13 @@
                                 <td class="column100 column4" data-column="column4">{{$user->cpf}}</td>
                                 <td class="column100 column5" data-column="column5">{{$user->phone_number}}</td>
                                 <td class="column100 column6" data-column="column6">{{$user->email}}</td>
+                                <td class="column100 column7" data-column="column7">
+                                    @if($user->user_type == 'administrator')
+                                        {{'admin'}}
+                                    @else
+                                        {{'estudante'}}
+                                    @endif
+                                </td>
                                 <td class=" td-a-action">
                                     <a href="{{route('admin.users.edit', ['user' => $user->id])}}" class="btn btn-warning btn-sm">EDITAR</a>
                                 </td>

@@ -14,10 +14,11 @@ class UserFactory extends factory
 
     public function definition()
     {
-       
+
         return [
             'name' => $this->faker->name,
-            'user_name' => $this->faker->firstName,
+            'user_name' => $this->faker->unique()->userName,
+            'user_type' => $this->faker->randomElement(['administrator', 'student']),
             'cpf' => $this->faker->cpf,
             'phone_number' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,

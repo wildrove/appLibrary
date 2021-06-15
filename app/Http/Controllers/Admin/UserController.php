@@ -61,7 +61,9 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-        
+        $user = \App\Models\User::find($user);
+
+        return view('/admin/users/edit', compact('user'));
     }
 
     /**
@@ -73,7 +75,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $user)
     {
-        //
+        $data = $request->all();
+        $user = \App\Models\User::find($user);
+        $user->update($data);
+
+        return redirect('/admin/users');
     }
 
     /**
