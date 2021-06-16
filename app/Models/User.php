@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -16,15 +17,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'user_name',
-        'email',
-        'password',
-        'cpf',
-        'phone_number',
-        'user_type'
-    ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,6 +27,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $fillable = [
+        'name',
+        'user_name',
+        'user_type',
+        'cpf',
+        'phone_number',
+        'email',
+        'password'
+
+
+
     ];
 
     /**
@@ -47,6 +53,6 @@ class User extends Authenticatable
 
     public function rents()
     {
-        return $this->hasMany(Rent::class);
+        return $this->hasOne(Rent::class);
     }
 }

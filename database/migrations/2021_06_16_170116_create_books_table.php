@@ -14,20 +14,15 @@ class CreateBooksTable extends Migration
     public function up()
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('rent_id');
-            $table->unsignedBigInteger('user_id');
-            
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('publisher');
             $table->string('author');
             $table->integer('year')->length(4);
+            $table->enum('status', ['avaliable', 'unavaliable']);
             $table->string('description')->nullable();
             $table->string('slug');
-            
-            
-            $table->foreign('rent_id')->references('id')->on('rents');
-            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

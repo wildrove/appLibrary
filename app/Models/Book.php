@@ -18,7 +18,8 @@ class Book extends Model
         'name',
         'publisher',
         'author',
-        'description'
+        'description',
+        'status'
     ];
 
     /**
@@ -27,7 +28,7 @@ class Book extends Model
      * @var array
      */
     protected $hidden = [
-      
+
     ];
 
     public function rent()
@@ -35,5 +36,5 @@ class Book extends Model
         return $this->belongsTo(Rent::class);
     }
 
-    
+
 }

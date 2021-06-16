@@ -24,7 +24,8 @@ class RentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, \App\Models\User::count())
+            'user_id' => rand(1, \App\Models\User::count()),
+            'book_id' => rand(1, \App\Models\Book::count())
         ];
     }
 }

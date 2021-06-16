@@ -26,11 +26,10 @@ class BookFactory extends Factory
             'publisher' => 'Editora ' . $this->faker->firstName,
             'author' => $this->faker->name,
             'year' => $this->faker->year,
+            'status' => $this->faker->randomElement(['avaliable', 'unavaliable']),
             'description' => $this->faker->sentence,
             'slug' => $this->faker->slug,
-            'rent_id' => rand(1, \App\Models\Rent::count()),
-            'user_id' => rand(1, \App\Models\User::count())
-            
+
         ];
     }
 }
