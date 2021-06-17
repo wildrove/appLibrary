@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4b89ddd9b2a5cb99ee3677eb964fd525620bd6c2',
+    'reference' => 'f38f6ca495fb26888fd19e4acd4cb2152ba83607',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -429,6 +429,15 @@
         0 => '*',
       ),
     ),
+    'laracasts/flash' => 
+    array (
+      'pretty_version' => '3.2',
+      'version' => '3.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '76c2e200498795bdbeda97b682536130316e8b97',
+    ),
     'laravel/framework' => 
     array (
       'pretty_version' => 'v8.32.1',
@@ -445,7 +454,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4b89ddd9b2a5cb99ee3677eb964fd525620bd6c2',
+      'reference' => 'f38f6ca495fb26888fd19e4acd4cb2152ba83607',
     ),
     'laravel/sail' => 
     array (
@@ -760,8 +769,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 

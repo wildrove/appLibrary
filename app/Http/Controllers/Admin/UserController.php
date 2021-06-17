@@ -39,7 +39,8 @@ class UserController extends Controller
     {
         $user = \App\Models\User::create($request->all());
 
-        return redirect('/admin/users');
+        flash('Usuário Criado com Sucesso !')->success();
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -79,7 +80,8 @@ class UserController extends Controller
         $user = \App\Models\User::find($user);
         $user->update($data);
 
-        return redirect('/admin/users');
+        flash('Usuário Atualizado com Sucesso !')->success();
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -93,6 +95,7 @@ class UserController extends Controller
         $user = \App\Models\User::find($user);
         $user->delete();
 
-        return redirect('/admin/users');
+        flash('Usuário Removido com Sucesso !')->success();
+        return redirect()->route('admin.users.index');
     }
 }
