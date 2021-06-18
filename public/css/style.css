@@ -1,4 +1,15 @@
+
+
 /* ============ Form Create User Css =================== */
+.btn-create {
+    font-family: Metropolis-Regular;
+    background-color: rgb(13, 110, 253);
+    font-weight: 400;
+    margin-left: 0%;
+    font-size: 17px;
+    float: right;
+
+}
 .get-in-touch {
     max-width: 800px;
     margin: 50px auto;
@@ -74,7 +85,7 @@
   /* ==================== Footer Content ======================= */
 
   .footer-content {
-      width: 100%;
+      width: auto;
       height: auto;
       padding: 30px;
       background-color: #26272b;
@@ -100,3 +111,5 @@
       line-height: 5px;
       border-bottom: 1.5px solid #80858b;
   }
+
+

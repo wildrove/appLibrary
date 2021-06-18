@@ -59,7 +59,7 @@
                 <div class="col-sm-9">
                     <span>
                         <p class="p-footer-text">
-                            Copyright @ 2021 Todos os direitos reservados por Wilder V. Gaspar
+                            Copyright @ 2021 Todos os direitos reservados.
                         </p>
                     </span>
                 </div>
@@ -82,6 +82,12 @@
                         </a>
                     </span>
                 </div>
+            </div>
+            <!-- Linha 4 de Conteúdo -->
+            <div class="row">
+                <span class="d-flex justify-content-center p-footer-text">
+                       <blockquote>Desenvolvido por Wilder V. Gaspar</blockquote>
+                </span>
             </div>
         </section>
 

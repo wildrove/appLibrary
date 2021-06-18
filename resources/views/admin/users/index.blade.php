@@ -5,7 +5,7 @@
     <div class="container-table100">
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">
-                <a href="{{route('admin.users.create')}}" class=" justify-content-center btn btn-success btn-lg mb-4">Criar Loja</a>
+                <a href="{{route('admin.users.create')}}" class="btn mb-3 btn-create">Novo Usuário</a>
                 <table class="text-center" data-vertable="ver1">
                     <thead>
                         <tr class=" row100 head">
