@@ -3,7 +3,7 @@
     max-width: 800px;
     margin: 50px auto;
     position: relative;
-  
+
   }
   .get-in-touch .title {
     text-align: center;
@@ -20,7 +20,7 @@
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
   }
-  
+
   .contact-form .form-field {
     position: relative;
     margin: 32px 0;
@@ -54,7 +54,7 @@
     cursor: text;
     transition: -webkit-transform .2s ease-in-out;
     transition: transform .2s ease-in-out;
-    transition: transform .2s ease-in-out, 
+    transition: transform .2s ease-in-out,
     -webkit-transform .2s ease-in-out;
   }
   .contact-form .submit-btn {
@@ -70,4 +70,33 @@
     width:200px;
     cursor: pointer;
   }
-  
+
+  /* ==================== Footer Content ======================= */
+
+  .footer-content {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      background-color: #26272b;
+  }
+
+  .h1-footer {
+    font-size: 17px;
+    font-family: Metropolis-Regular;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px;
+    color: #ffffff;
+  }
+
+  .p-footer-text {
+      color: #80858b;
+  }
+
+  .div-footer-divisor {
+      width: 95%;
+      margin-left: 0px;
+      margin-top: 20px;
+      line-height: 5px;
+      border-bottom: 1.5px solid #80858b;
+  }
