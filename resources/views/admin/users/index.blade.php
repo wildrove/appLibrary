@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="limiter">
+<div class="limiter" style="background: #fff !important">
     <div class="container-table100">
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">
