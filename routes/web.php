@@ -38,3 +38,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
         Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
     });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
