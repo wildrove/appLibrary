@@ -19,7 +19,7 @@ class PostgresGrammar extends Grammar
      *
      * @var string[]
      */
-    protected $modifiers = ['Collate', 'Increment', 'Nullable', 'Default', 'VirtualAs', 'StoredAs'];
+    protected $modifiers = ['Primary', 'Collate', 'Increment', 'Nullable', 'Default', 'VirtualAs', 'StoredAs'];
 
     /**
      * The columns available as serials.
@@ -38,7 +38,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a create database command.
      *
-     * @param  string $name
+     * @param  string  $name
      * @param  \Illuminate\Database\Connection  $connection
      * @return string
      */
@@ -54,7 +54,7 @@ class PostgresGrammar extends Grammar
     /**
      * Compile a drop database if exists command.
      *
-     * @param  string $name
+     * @param  string  $name
      * @return string
      */
     public function compileDropDatabaseIfExists($name)
@@ -470,6 +470,17 @@ class PostgresGrammar extends Grammar
     protected function typeString(Fluent $column)
     {
         return "varchar({$column->length})";
+    }
+
+    /**
+     * Create the column definition for a tiny text type.
+     *
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string
+     */
+    protected function typeTinyText(Fluent $column)
+    {
+        return 'varchar(255)';
     }
 
     /**
@@ -966,6 +977,20 @@ class PostgresGrammar extends Grammar
     protected function modifyNullable(Blueprint $blueprint, Fluent $column)
     {
         return $column->nullable ? ' null' : ' not null';
+    }
+
+    /**
+     * Get the SQL for a primary column modifier.
+     *
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string|null
+     */
+    public function modifyPrimary(Blueprint $blueprint, Fluent $column)
+    {
+        if (! $column->autoIncrement && ! is_null($column->primary)) {
+            return ' primary key';
+        }
     }
 
     /**

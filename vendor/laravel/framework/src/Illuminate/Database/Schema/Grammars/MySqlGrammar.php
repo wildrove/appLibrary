@@ -15,7 +15,7 @@ class MySqlGrammar extends Grammar
      * @var string[]
      */
     protected $modifiers = [
-        'Unsigned', 'Charset', 'Collate', 'VirtualAs', 'StoredAs', 'Nullable',
+        'Unsigned', 'Primary', 'Charset', 'Collate', 'VirtualAs', 'StoredAs', 'Nullable',
         'Srid', 'Default', 'Increment', 'Comment', 'After', 'First',
     ];
 
@@ -29,7 +29,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a create database command.
      *
-     * @param  string $name
+     * @param  string  $name
      * @param  \Illuminate\Database\Connection  $connection
      * @return string
      */
@@ -46,7 +46,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a drop database if exists command.
      *
-     * @param  string $name
+     * @param  string  $name
      * @return string
      */
     public function compileDropDatabaseIfExists($name)
@@ -491,6 +491,17 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+     * Create the column definition for a tiny text type.
+     *
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string
+     */
+    protected function typeTinyText(Fluent $column)
+    {
+        return 'tinytext';
+    }
+
+    /**
      * Create the column definition for a text type.
      *
      * @param  \Illuminate\Support\Fluent  $column
@@ -691,7 +702,11 @@ class MySqlGrammar extends Grammar
     {
         $columnType = $column->precision ? "datetime($column->precision)" : 'datetime';
 
-        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
+        $current = $column->precision ? "CURRENT_TIMESTAMP($column->precision)" : 'CURRENT_TIMESTAMP';
+
+        $columnType = $column->useCurrent ? "$columnType default $current" : $columnType;
+
+        return $column->useCurrentOnUpdate ? "$columnType on update $current" : $columnType;
     }
 
     /**
@@ -912,30 +927,30 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-     * Get the SQL for a generated virtual column modifier.
+     * Get the SQL for a primary column modifier.
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  \Illuminate\Support\Fluent  $column
      * @return string|null
      */
-    protected function modifyVirtualAs(Blueprint $blueprint, Fluent $column)
+    public function modifyPrimary(Blueprint $blueprint, Fluent $column)
     {
-        if (! is_null($column->virtualAs)) {
-            return " as ({$column->virtualAs})";
+        if (! $column->autoIncrement && ! is_null($column->primary)) {
+            return ' primary key';
         }
     }
 
     /**
-     * Get the SQL for a generated stored column modifier.
+     * Get the SQL for an auto-increment column modifier.
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  \Illuminate\Support\Fluent  $column
      * @return string|null
      */
-    protected function modifyStoredAs(Blueprint $blueprint, Fluent $column)
+    protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
     {
-        if (! is_null($column->storedAs)) {
-            return " as ({$column->storedAs}) stored";
+        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
+            return ' auto_increment primary key';
         }
     }
 
@@ -1014,16 +1029,30 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-     * Get the SQL for an auto-increment column modifier.
+     * Get the SQL for a generated virtual column modifier.
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  \Illuminate\Support\Fluent  $column
      * @return string|null
      */
-    protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
+    protected function modifyVirtualAs(Blueprint $blueprint, Fluent $column)
     {
-        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
-            return ' auto_increment primary key';
+        if (! is_null($column->virtualAs)) {
+            return " as ({$column->virtualAs})";
+        }
+    }
+
+    /**
+     * Get the SQL for a generated stored column modifier.
+     *
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string|null
+     */
+    protected function modifyStoredAs(Blueprint $blueprint, Fluent $column)
+    {
+        if (! is_null($column->storedAs)) {
+            return " as ({$column->storedAs}) stored";
         }
     }
 
