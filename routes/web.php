@@ -26,9 +26,10 @@ Route::get('/', function () {
     Route::post('/admin/users/store', [UserController::class, 'store']);
 */
 
-Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
+Route::prefix('admin')->name('admin.')->group(function(){
 
-    Route::prefix('users')->name('users.')->group(function(){
+/*
+   Route::prefix('users')->name('users.')->group(function(){
 
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -37,6 +38,11 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
         Route::post('/update/{user}', [UserController::class, 'update'])->name('update');
         Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
     });
+*/
+    Route::resource('/users', UserController::class);
+    Route::resource('/rents', RentController::class);
+    Route::resource('/books', BookController::class);
+
 });
 
 Auth::routes();

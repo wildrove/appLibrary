@@ -40,7 +40,12 @@
                                     <a href="{{route('admin.users.edit', ['user' => $user->id])}}" class="btn btn-warning btn-sm">EDITAR</a>
                                 </td>
                                 <td class="td-a-action">
-                                    <a href="{{route('admin.users.destroy', ['user' => $user->id])}}" class="btn btn-danger btn-sm ">REMOVER</a>
+                                    <form class="" action="{{route('admin.users.destroy', ['user' => $user->id])}}" method="post">
+                                        
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm ">REMOVER</a>
+                                    </form> 
                                 </td>
                             </tr>
                         @endforeach

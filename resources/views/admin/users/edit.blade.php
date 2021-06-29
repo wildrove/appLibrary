@@ -6,6 +6,7 @@
       <form class="contact-form row" action="{{route('admin.users.update', ['user' => $user->id])}}" method="POST" autocomplete="off">
 
       @csrf
+      @method('PUT')
 
          <div class="form-field col-lg-6">
             <input class="input-text js-input p-3" type="text" name="name" value="{{$user->name}}" required>

@@ -3,12 +3,11 @@
 @section('content')
    <section class="get-in-touch">
       <h1 class="title">CRIAR USUÁRIO</h1>
-      <form class="contact-form row" action="/admin/users/store" method="POST" autocomplete="off">
+      <form class="contact-form row" action="{{route('admin.users.store')}}" method="post" autocomplete="off">
 
-      @csrf
-
-      <!-- Equivalent to... -->
-      <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
+         @csrf
+         <!-- Equivalent to... -->
+         <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
             <input class="input-text js-input p-3" type="text" name="name" required>
