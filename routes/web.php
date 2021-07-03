@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\RentController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 /*
     Route::get('/admin/users', [UserController::class, 'index']);
@@ -26,25 +26,34 @@ Route::get('/', function () {
     Route::post('/admin/users/store', [UserController::class, 'store']);
 */
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::group(['middleware' => 'auth'], function(){
 
-/*
-   Route::prefix('users')->name('users.')->group(function(){
-
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
-        Route::post('/update/{user}', [UserController::class, 'update'])->name('update');
-        Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
+    Route::group([], function(){
+    
+        Route::prefix('admin')->name('admin.')->group(function(){
+    
+    /*
+       Route::prefix('users')->name('users.')->group(function(){
+    
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/create', [UserController::class, 'create'])->name('create');
+            Route::post('/store', [UserController::class, 'store'])->name('store');
+            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+            Route::post('/update/{user}', [UserController::class, 'update'])->name('update');
+            Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
+        });
+    */
+            Route::resource('/users', UserController::class);
+            Route::resource('/rents', RentController::class);
+            Route::resource('/books', BookController::class);
+    
+        });
+    
     });
-*/
-    Route::resource('/users', UserController::class);
-    Route::resource('/rents', RentController::class);
-    Route::resource('/books', BookController::class);
-
 });
+
+
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
