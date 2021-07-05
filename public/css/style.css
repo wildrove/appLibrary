@@ -84,10 +84,15 @@
 
   /* ==================== Navbar Content ======================= */
 
+  .navbar-bg-color {
+    background-color: #26272b;
+  }
 
 
   /* ==================== Footer Content ======================= */
-
+p {
+    color: #80858b;
+}
   .footer-content {
       width: auto;
       height: auto;
@@ -105,7 +110,7 @@
   }
 
   .p-footer-text {
-      color: #80858b;
+
   }
 
   .div-footer-divisor {
