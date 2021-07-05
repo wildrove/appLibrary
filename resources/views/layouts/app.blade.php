@@ -14,41 +14,78 @@
         <title>App Livraria</title>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-principal">
+            <div class="container-fluid"> <a class="navbar-brand" href="{{route('home')}}">Logo</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @auth
+                    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link @if(request()->is('admin/users')) active @endif" aria-current="page" href="{{route('admin.users.index')}}">Usuários</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @if(request()->is('admin/books')) active @endif" href="{{route('admin.books.index')}}">Livros</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex ml-auto">
+                        <ul class="navbar-nav mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#" id="dropdownCart" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCart">
+                                    <li>
+                                        <a class="dropdown-item bg-transparent" href="#">
+                                            <i class="fas fa-shopping-bag"></i>
+                                            <span class="pl-2">Meu Carrinho</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item bg-transparent" href="#">
+                                            <i class="fas fa-book"></i>
+                                            <span class="pl-2">Item 1</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-        <nav class="navbar fixed-top navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                    <i class="fas fa-shopping-cart"></i>
-                    <i class="fas fa-user-circle"></i>
-                </a>
-                <ul class="nav">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="btn-group dropstart">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            <i class="fas fa-user-circle"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Preferências</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Sair</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#" id="dropdownProfile" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
+                                    <li>
+                                        <a class="dropdown-item bg-transparent" href="#">
+                                            <i class="far fa-cog"></i>
+                                            <span class="pl-2">Configurações</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item bg-transparent" href="#">
+                                            <i class="far fa-envelope"></i>
+                                            <span class="pl-2">Menssagens</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="btn dropdown-item bg-transparent ml-4" href="#" onclick="event.preventDefault();document.querySelector('form.logout').submit()">
+                                            <form action="{{route('logout')}}" method="post" class="d-lg-none logout">
+                                                @csrf
+                                            </form>
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span class="pl-2">Sair</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+                @endauth
             </div>
         </nav>
-
-        <div class="container">
+        <div class="container-fluid">
             @include('flash::message')
             @yield('content')
 
@@ -115,12 +152,6 @@
                         </a>
                     </span>
                 </div>
-            </div>
-            <!-- Linha 4 de Conteúdo -->
-            <div class="row">
-                <span class="d-flex justify-content-center">
-                       <blockquote>Desenvolvido por Wilder V. Gaspar</blockquote>
-                </span>
             </div>
         </section>
         <script>

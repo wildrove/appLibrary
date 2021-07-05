@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Book;
+
 class BookController extends Controller
 {
     /**
@@ -12,9 +14,19 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     protected $book;
+     
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
+
     public function index()
     {
-        //
+        $books = $this->book->paginate(10);
+
+        return view('admin.books.index', compact('books'));
     }
 
     /**
@@ -24,7 +36,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.books.create');
     }
 
     /**
@@ -35,7 +47,12 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $book = $this->book->create($data);
+
+        flash('Livro Criado com sucesso !')->success();
+
+        return redirect()->route('admin.books.index');
     }
 
     /**
@@ -44,7 +61,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($book)
     {
         //
     }
@@ -55,9 +72,11 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($book)
     {
-        //
+        $book = $this->book->find($book);
+        
+        return view('admin.books.edit', compact('book'));
     }
 
     /**
@@ -67,9 +86,15 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $book)
     {
-        //
+        $book = $this->book->find($book);
+        $data = $request->all();
+        $book->update($data);
+
+        flash('Livro Atualizado com Sucesso !')->success();
+
+        return redirect()->route('admin.books.index');
     }
 
     /**
@@ -78,8 +103,13 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($book)
     {
-        //
+        $book = $this->book->find($book);
+        $book->delete();
+
+        flash('Livro removido com sucesso!')->success();
+
+        return redirect()->route('admin.books.index');
     }
 }

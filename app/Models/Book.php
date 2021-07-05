@@ -19,7 +19,9 @@ class Book extends Model
         'publisher',
         'author',
         'description',
-        'status'
+        'status',
+        'year',
+        'slug'
     ];
 
     /**

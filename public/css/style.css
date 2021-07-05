@@ -1,5 +1,9 @@
 
+body html {
+  padding: 0px;
+  margin: 0px;
 
+}
 /* ============ Form Create User Css =================== */
 .btn-create {
     font-family: Metropolis-Regular;
@@ -84,11 +88,11 @@
 
   /* ==================== Navbar Content ======================= */
 
-  .navbar-bg-color {
-    background-color: #26272b;
-  }
-
-
+ .nav-principal {
+  font-family: Montserrat-Medium;
+  font-size: 20px;
+  line-height: 50px;
+ }
   /* ==================== Footer Content ======================= */
 p {
     color: #80858b;
