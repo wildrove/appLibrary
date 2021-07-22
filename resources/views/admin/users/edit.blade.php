@@ -9,32 +9,32 @@
       @method('PUT')
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="name" value="{{$user->name}}" required>
+            <input class="input-text js-input p-3" type="text" name="name" value="{{$user->name}}">
             <label class="label mb-4" for="name">NOME COMPLETO</label>
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="user_name" value="{{$user->user_name}}" maxlength="10" minlength="4" required>
+            <input class="input-text js-input p-3" type="text" name="user_name" value="{{$user->user_name}}">
             <label class="label mb-4" for="user_name">USUÁRIO</label>
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="email" name="email" value="{{$user->email}}" required>
+            <input class="input-text js-input p-3" type="email" name="email" value="{{$user->email}}">
             <label class="label mb-4" for="email">E-MAIL</label>
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="cpf" value="{{$user->cpf}}" maxlength="11" required>
+            <input class="input-text js-input p-3" type="text" name="cpf" value="{{$user->cpf}}">
             <label class="label mb-4" for="cpf">CPF</label>
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="phone_number" value="{{$user->phone_number}}" required>
+            <input class="input-text js-input p-3" type="text" name="phone_number" value="{{$user->phone_number}}">
             <label class="label mb-4" for="phone_number">CONTATO</label>
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input" type="password" name="password" value="{{$user->password}}" maxlength="8" minlength="4" required>
+            <input class="input-text js-input" type="password" name="password" value="{{$user->password}}">
             <label class="label mb-4" for="password">SENHA</label>
          </div>
 

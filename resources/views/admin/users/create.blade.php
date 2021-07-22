@@ -10,33 +10,51 @@
          <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="name" required>
-            <label class="label mb-4" for="name">NOME COMPLETO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('name') is-invalid @enderror" type="text" name="name" value="{{old('name')}}">
+            <label class="label mb-4 pb-md-2" for="name">NOME COMPLETO</label>
+            @error('name')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="user_name" maxlength="10" minlength="4" required>
-            <label class="label mb-4" for="user_name">USUÁRIO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('user_name') is-invalid @enderror" type="text" name="user_name" value="{{old('user_name')}}">
+            <label class="label mb-4 pb-md-2" for="user_name">USUÁRIO</label>
+            @error('user_name')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="email" name="email" required>
-            <label class="label mb-4" for="email">E-MAIL</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('email') is-invalid @enderror" type="email" name="email" value="{{old('email')}}">
+            <label class="label mb-4 pb-md-2" for="email">E-MAIL</label>
+            @error('email')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="cpf" maxlength="11" required>
-            <label class="label mb-4" for="cpf">CPF</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('cpf') is-invalid @enderror" type="text" name="cpf" value="{{old('cpf')}}">
+            <label class="label mb-4 pb-md-2" for="cpf">CPF</label>
+            @error('cpf')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="phone_number" required>
-            <label class="label mb-4" for="phone_number">CONTATO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('phone_number') is-invalid @enderror" type="text" name="phone_number" value="{{old('phone_number')}}">
+            <label class="label mb-4 pb-md-2" for="phone_number">CONTATO</label>
+            @error('phone_number')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input" type="password" name="password" maxlength="8" minlength="4" required>
-            <label class="label mb-4" for="password">SENHA</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('password') is-invalid @enderror" type="password" name="password">
+            <label class="label mb-4 pb-md-2" for="password">SENHA</label>
+            @error('password')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
         </div>
 
         <div class="form-field col-lg-6">

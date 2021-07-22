@@ -10,22 +10,22 @@
          <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="name" maxlength="30" required>
+            <input class="input-text js-input p-3" type="text" name="name">
             <label class="label mb-4" for="name">NOME LIVRO</label>
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="publisher" maxlength="30"  required>
+            <input class="input-text js-input p-3" type="text" name="publisher">
             <label class="label mb-4" for="publisher">EDITORA</label>
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="author" maxlength="30" required>
+            <input class="input-text js-input p-3" type="text" name="author">
             <label class="label mb-4" for="author">AUTOR</label>
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="number" name="year" maxlength="4" required>
+            <input class="input-text js-input p-3" type="number" name="year">
             <label class="label mb-4" for="year">ANO</label>
          </div>
 
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="slug" required>
+            <input class="input-text js-input p-3" type="text" name="slug">
             <label class="label mb-4" for="slug">SLUG DO LIVRO</label>
          </div>
 
