@@ -10,23 +10,35 @@
          <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="name">
-            <label class="label mb-4" for="name">NOME LIVRO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="name">
+            <label class="label mb-4 pb-md-2" for="name">NOME LIVRO</label>
+            @error('name')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="publisher">
-            <label class="label mb-4" for="publisher">EDITORA</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="publisher">
+            <label class="label mb-4 pb-md-2" for="publisher">EDITORA</label>
+            @error('publisher')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="author">
-            <label class="label mb-4" for="author">AUTOR</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="author">
+            <label class="label mb-4 pb-md-2" for="author">AUTOR</label>
+            @error('author')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="number" name="year">
-            <label class="label mb-4" for="year">ANO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="number" name="year">
+            <label class="label mb-4 pb-md-2" for="year">ANO</label>
+            @error('year')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
          </div>
 
          <div class="form-field col-lg-6">
@@ -38,15 +50,19 @@
           </div>
 
          <div class="form-field col-lg-6">
-            <label class="label mb-4" for="description">DESCRIÇÃO</label>
+            <label class="label mb-4 pb-md-2" for="description">DESCRIÇÃO</label>
             <textarea class="input-text js-input" name="description">
 
             </textarea>
+            @error('description')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
         </div>
 
         <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="slug">
-            <label class="label mb-4" for="slug">SLUG DO LIVRO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="slug">
+            <label class="label mb-4 pb-md-2" for="slug">SLUG DO LIVRO</label>
+
          </div>
 
         <div class="form-field col-lg-12">
