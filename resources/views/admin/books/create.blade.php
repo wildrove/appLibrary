@@ -10,7 +10,7 @@
          <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="name">
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('name') is-invalid @enderror" type="text" name="name">
             <label class="label mb-4 pb-md-2" for="name">NOME LIVRO</label>
             @error('name')
                 <span class="invalid-feedback">{{$message}}</span>
@@ -18,7 +18,7 @@
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="publisher">
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('publisher') is-invalid @enderror" type="text" name="publisher">
             <label class="label mb-4 pb-md-2" for="publisher">EDITORA</label>
             @error('publisher')
                 <span class="invalid-feedback">{{$message}}</span>
@@ -26,7 +26,7 @@
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="author">
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('publisher') is-invalid @enderror" type="text" name="author">
             <label class="label mb-4 pb-md-2" for="author">AUTOR</label>
             @error('author')
                 <span class="invalid-feedback">{{$message}}</span>
@@ -34,7 +34,7 @@
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="number" name="year">
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('publisher') is-invalid @enderror" type="number" name="year">
             <label class="label mb-4 pb-md-2" for="year">ANO</label>
             @error('year')
                 <span class="invalid-feedback">{{$message}}</span>
@@ -42,7 +42,7 @@
          </div>
 
          <div class="form-field col-lg-6">
-            <label class="label mb-4" for="user_type">STATUS</label>
+            <label class="label mb-4 pb-md-2" for="user_type">STATUS</label>
             <select name="status" class="input-text js-input">
                 <option value="avaliable" selected="">Disponível</option>
                 <option value="unavaliable">Alugado</option>
@@ -51,7 +51,7 @@
 
          <div class="form-field col-lg-6">
             <label class="label mb-4 pb-md-2" for="description">DESCRIÇÃO</label>
-            <textarea class="input-text js-input" name="description">
+            <textarea class="input-text js-input @error('publisher') is-invalid @enderror" name="description">
 
             </textarea>
             @error('description')

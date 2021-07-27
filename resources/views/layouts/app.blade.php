@@ -14,7 +14,7 @@
         <title>App Livraria</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-principal">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark nav-principal">
             <div class="container-fluid"> <a class="navbar-brand" href="{{route('home')}}">Logo</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @auth
@@ -85,7 +85,7 @@
                 @endauth
             </div>
         </nav>
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 80px;">
             @include('flash::message')
             @yield('content')
 

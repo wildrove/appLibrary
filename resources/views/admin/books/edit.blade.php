@@ -11,27 +11,39 @@
          <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> -->
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="name" value="{{$book->name}}">
-            <label class="label mb-4" for="name">NOME LIVRO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('name') is-invalid @enderror" type="text" name="name" value="{{$book->name}}">
+            <label class="label mb-4 pb-md-2" for="name">NOME LIVRO</label>
+            @error('name')
+               <span class="invalid-feedback">{{$message}}</span>
+            @enderror   
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input p-3" type="text" name="publisher" value="{{$book->publisher}}">
-            <label class="label mb-4" for="publisher">EDITORA</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('publisher') is-invalid @enderror" type="text" name="publisher" value="{{$book->publisher}}">
+            <label class="label mb-4 pb-md-2" for="publisher">EDITORA</label>
+            @error('publisher')
+               <span class="invalid-feedback">{{$message}}</span>
+            @enderror   
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="author" value="{{$book->author}}">
-            <label class="label mb-4" for="author">AUTOR</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('author') is-invalid @enderror" type="text" name="author" value="{{$book->author}}">
+            <label class="label mb-4 pb-md-2" for="author">AUTOR</label>
+            @error('author')
+               <span class="invalid-feedback">{{$message}}</span>
+            @enderror   
          </div>
 
          <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="number" name="year" value="{{$book->year}}">
-            <label class="label mb-4" for="year">ANO</label>
+            <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2 @error('year') is-invalid @enderror" type="number" name="year" value="{{$book->year}}">
+            <label class="label mb-4 pb-md-2" for="year">ANO</label>
+            @error('year')
+               <span class="invalid-feedback">{{$message}}</span>
+            @enderror   
          </div>
 
          <div class="form-field col-lg-6">
-            <label class="label mb-4" for="user_type">STATUS</label>
+            <label class="label mb-4 pb-md-2" for="user_type">STATUS</label>
             <select name="status" class="input-text js-input">
                 <option value="avaliable" selected="">Disponível</option>
                 <option value="unavaliable">Alugado</option>
@@ -39,15 +51,18 @@
           </div>
 
          <div class="form-field col-lg-6">
-            <label class="label mb-4" for="description">DESCRIÇÃO</label>
-            <textarea class="input-text js-input" name="description">
+            <label class="label mb-4 pb-md-2" for="description">DESCRIÇÃO</label>
+            <textarea class="@error('description') is-invalid @enderror input-text js-input pt-md-4 pb-md-2 pl-md-2" name="description">
                 {{$book->description}}
             </textarea>
+            @error('description')
+               <span class="invalid-feedback">{{$message}}</span>
+            @enderror   
         </div>
 
         <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3" type="text" name="slug" value="{{$book->slug}}">
-            <label class="label mb-4" for="slug">SLUG DO LIVRO</label>
+            <input class="input-text js-input p-3 @error('name') is-invalid @enderror" type="text" name="slug" value="{{$book->slug}}">
+            <label class="label mb-4 pb-md-2" for="slug">SLUG DO LIVRO</label>
          </div>
 
         <div class="form-field col-lg-12">
