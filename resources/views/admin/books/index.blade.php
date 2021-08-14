@@ -14,6 +14,7 @@
                             <th class="column100 column3" data-column="column3">EDITORA</th>
                             <th class="column100 column4" data-column="column4">AUTOR</th>
                             <th class="column100 column5" data-column="column5">ANO</th>
+                            <th class="column100 column5" data-column="column5">CATEGORIA</th>
                             <th class="column100 column6" data-column="column6">STATUS</th>
                             <th class="column100 column7" data-column="column8">EDITAR</th>
                             <th class="column100 column8" data-column="column9">REMOVER</th>
@@ -27,6 +28,7 @@
                                 <td class="column100 column3" data-column="column3">{{$book->publisher}}</td>
                                 <td class="column100 column4" data-column="column4">{{$book->author}}</td>
                                 <td class="column100 column5" data-column="column5">{{$book->year}}</td>
+                                <td class="column100 column5" data-column="column5">{{$book->categories->pluck('name')->implode(' ')}}</td>
                                 <td class="column100 column6" data-column="column6">
                                     @if($book->status == 'avaliable')
                                        <span class="text-success">

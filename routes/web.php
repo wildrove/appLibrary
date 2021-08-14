@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\RentController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,9 +44,10 @@ Route::group(['middleware' => 'auth'], function(){
             Route::get('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
         });
     */
-            Route::resource('/users', UserController::class);
-            Route::resource('/rents', RentController::class);
-            Route::resource('/books', BookController::class);
+            Route::resource('/users',      UserController::class);
+            Route::resource('/rents',      RentController::class);
+            Route::resource('/books',      BookController::class);
+            Route::resource('/categories', CategoryController::class);
 
         });
 

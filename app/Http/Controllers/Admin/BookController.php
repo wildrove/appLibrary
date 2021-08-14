@@ -36,8 +36,10 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admin.books.create');
+    {    
+        $categories = \App\Models\Category::all(['id', 'name']);
+
+        return view('admin.books.create', compact('categories'));
     }
 
     /**
@@ -49,8 +51,9 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         $data = $request->all();
-        $book = $this->book->create($data);
 
+        $book = $this->book->create($data);
+        $bookCategory = $book->categories()->sync($data['category']);
         flash('Livro Criado com sucesso !')->success();
 
         return redirect()->route('admin.books.index');

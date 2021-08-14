@@ -62,7 +62,15 @@
         <div class="form-field col-lg-6 ">
             <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2" type="text" name="slug">
             <label class="label mb-4 pb-md-2" for="slug">SLUG DO LIVRO</label>
+         </div>
 
+         <div class="form-field col-lg-6">
+            <label class="label mb-4 pb-md-2" for="category">CATEGORIA</label>
+            <select name="category[]" class="input-text js-input" multiple>
+               @foreach($categories as $category)
+                  <option value="{{$category->id}}">{{$category->name}}</option>
+               @endforeach
+            </select>
          </div>
 
         <div class="form-field col-lg-12">
