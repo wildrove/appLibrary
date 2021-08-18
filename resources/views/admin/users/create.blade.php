@@ -3,7 +3,7 @@
 @section('content')
    <section class="get-in-touch">
       <h1 class="title">CRIAR USUÁRIO</h1>
-      <form class="contact-form row" action="{{route('admin.users.store')}}" method="post" autocomplete="off">
+      <form class="contact-form row" action="{{route('admin.users.store')}}" method="post" enctype="multipart/form-data">
 
          @csrf
          <!-- Equivalent to... -->
@@ -64,6 +64,12 @@
                <option value="administrator">Admnistrador</option>
            </select>
          </div>
+
+         <div class="form-field col-lg-6">
+            <input class="input-text js-input mt-2" type="file" name="image[]" multiple>
+            <label class="label mb-4 pb-md-2" for="password">Selecionar Imagens</label>
+
+        </div>
 
          <div class="form-field col-lg-12">
             <input class="submit-btn" type="submit" value="Salvar">
