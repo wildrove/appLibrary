@@ -66,7 +66,7 @@
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input mt-2" type="file" name="image[]" multiple>
+            <input class="input-text js-input mt-2" type="file" name="photos[]" multiple>
             <label class="label mb-4 pb-md-2" for="password">Selecionar Imagens</label>
 
         </div>

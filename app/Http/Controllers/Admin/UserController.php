@@ -37,9 +37,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    {
+    {        
         $user = \App\Models\User::create($request->all());
 
+        $userImages = $this->uploadedImage($request, 'image');
+
+        $user->photos()->createMany($userImages);
+        
         flash('Usuário Criado com Sucesso !')->success();
         return redirect()->route('admin.users.index');
     }
@@ -98,5 +102,22 @@ class UserController extends Controller
 
         flash('Usuário Removido com Sucesso !')->success();
         return redirect()->route('admin.users.index');
+    }
+
+    private function uploadedImage(Request $request, $userPhotoColumn)
+    {
+        if($request->hasFile('photos')){
+            $images = $request->file('photos');
+            
+            $uploadedImages = [];
+
+            foreach($images as $image){
+                $uploadedImages[] = [$userPhotoColumn => $image->store('users', 'public')];
+            }
+
+            return $uploadedImages;
+        }
+
+        return false;
     }
 }

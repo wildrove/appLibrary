@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\BookRequest;
+//use App\Http\Requests\BookRequest;
 
 use App\Models\Book;
 
@@ -48,8 +48,9 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BookRequest $request)
+    public function store(Request $request)
     {
+    
         $data = $request->all();
 
         $book = $this->book->create($data);

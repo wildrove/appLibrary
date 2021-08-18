@@ -3,7 +3,7 @@
 @section('content')
    <section class="get-in-touch">
       <h1 class="title">CRIAR LIVRO</h1>
-      <form class="contact-form row" action="{{route('admin.books.store')}}" method="post" autocomplete="off">
+      <form class="contact-form row" action="{{route('admin.books.store')}}" method="post" enctype="multipart/form-data">
 
          @csrf
          <!-- Equivalent to... -->
@@ -72,7 +72,7 @@
                @endforeach
             </select>
          </div>
-
+         
         <div class="form-field col-lg-12">
             <input class="submit-btn" type="submit" value="Salvar">
          </div>
