@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
 
             UserTableSeeder::class,
             BookTableSeeder::class,
-            RentTableSeeder::class,
 
         ]);
     }

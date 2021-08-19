@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-//use App\Http\Requests\BookRequest;
+use App\Http\Requests\BookRequest;
 
 use App\Models\Book;
 
@@ -17,7 +17,7 @@ class BookController extends Controller
      */
 
      protected $book;
-     
+
     public function __construct(Book $book)
     {
         $this->book = $book;
@@ -36,7 +36,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {    
+    {
         $categories = \App\Models\Category::all(['id', 'name']);
 
         return view('admin.books.create', compact('categories'));
@@ -48,9 +48,9 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-    
+
         $data = $request->all();
 
         $book = $this->book->create($data);
@@ -80,7 +80,7 @@ class BookController extends Controller
     public function edit($book)
     {
         $book = $this->book->find($book);
-        
+
         return view('admin.books.edit', compact('book'));
     }
 

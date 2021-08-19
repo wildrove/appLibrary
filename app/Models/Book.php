@@ -33,11 +33,6 @@ class Book extends Model
 
     ];
 
-    public function rent()
-    {
-        return $this->belongsTo(Rent::class);
-    }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class);

@@ -51,11 +51,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function rent()
-    {
-        return $this->hasOne(Rent::class);
-    }
-
     public function photos()
     {
         return $this->hasMany(PhotoUser::class);
