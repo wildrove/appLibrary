@@ -3,7 +3,7 @@
 @section('content')
    <section class="get-in-touch">
       <h1 class="title">EDITAR USUÁRIO</h1>
-      <form class="contact-form row" action="{{route('admin.users.update', ['user' => $user->id])}}" method="POST" autocomplete="off">
+      <form class="contact-form row" action="{{route('admin.users.update', ['user' => $user->id])}}" method="POST" enctype="multipart/form-data" autocomplete="off">
 
       @csrf
       @method('PUT')
@@ -57,6 +57,11 @@
          </div>
 
          <div class="form-field col-lg-6">
+            <input class="input-text js-input mt-2" type="file" name="photos[]" multiple value="{{old('photos[]')}}">
+            <label class="label mb-4 pb-md-2" for="password">Selecionar Imagens</label>
+        </div>
+
+         <div class="form-field col-lg-6">
             <label class="label mb-4" for="user_type">TIPO USUÁRIO</label>
             <select name="user_type" class="input-text js-input">
                 <option value="student" selected="">Estudante</option>
@@ -68,5 +73,14 @@
             <input class="submit-btn" type="submit" value="Salvar">
          </div>
       </form>
+
+      <hr>
+      <div class="row">
+          @foreach($user->photos as $image)
+            <div class="col-md-6">
+                <img src="{{asset('storage/' . $image->image)}}" alt="" class="img-fluid">
+            </div>
+          @endforeach
+      </div>
    </section>
 @endsection
