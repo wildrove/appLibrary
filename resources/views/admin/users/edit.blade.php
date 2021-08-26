@@ -57,9 +57,10 @@
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input mt-2" type="file" name="photos[]" multiple value="{{old('photos[]')}}">
+            <input class="input-text js-input mt-2" type="file" name="photos[]" multiple>
             <label class="label mb-4 pb-md-2" for="password">Selecionar Imagens</label>
         </div>
+
 
          <div class="form-field col-lg-6">
             <label class="label mb-4" for="user_type">TIPO USUÁRIO</label>
@@ -76,11 +77,11 @@
 
       <hr>
       <div class="row">
-          @foreach($user->photos as $image)
-            <div class="col-md-6">
-                <img src="{{asset('storage/' . $image->image)}}" alt="" class="img-fluid">
-            </div>
-          @endforeach
+         <div class="col-4">
+            @foreach($user->photos as $image)
+               <img src="{{asset('storage/' . $image->image)}}" alt="" class="img-fluid">
+            @endforeach
+         </div>
       </div>
    </section>
 @endsection
