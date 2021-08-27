@@ -5,8 +5,8 @@
       <h1 class="title">EDITAR USUÁRIO</h1>
       <form class="contact-form row" action="{{route('admin.users.update', ['user' => $user->id])}}" method="POST" enctype="multipart/form-data" autocomplete="off">
 
-      @csrf
-      @method('PUT')
+        @csrf
+        @method('PUT')
 
          <div class="form-field col-lg-6">
             <input class="input-text js-input pt-md-4 pb-md-2 pl-md-2  @error('name') is-invalid @enderror" type="text" name="name" value="{{$user->name}}">
@@ -69,18 +69,51 @@
             </select>
           </div>
 
-         <div class="form-field col-lg-12">
+         <div class="form-field col-lg-6">
             <input class="submit-btn" type="submit" value="Salvar">
+         </div>
+
+         <div class="form-field col-lg-6">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#removePhoto">
+                Minhas Imagens
+            </button>
          </div>
       </form>
 
-      <hr>
-      <div class="row">
-          @foreach($user->photos as $image)
-            <div class="col-md-6">
-                <img src="{{asset('storage/' . $image->image)}}" alt="" class="img-fluid">
+      <!-- Modal -->
+        <div class="modal fade" id="removePhoto" tabindex="-1" role="dialog" aria-labelledby="removePhotoLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="removePhotoLabel">Excluir Imagens</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            @foreach($user->photos as $photo)
+                                <div class="col-md-4">
+                                    <img src="{{asset('storage/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail">
+
+                                    <form action="{{route('admin.photos.remove', ['photoName' => $photo->id])}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="photoName">
+                                        <button class="btn btn-sm badge badge-danger" type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
             </div>
-          @endforeach
-      </div>
+        </div>
+      <!-- FIM MODAL -->
+
    </section>
 @endsection
+
