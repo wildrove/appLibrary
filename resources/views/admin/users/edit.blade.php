@@ -97,9 +97,9 @@
                                 <div class="col-md-4">
                                     <img src="{{asset('storage/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail">
 
-                                    <form action="{{route('admin.photos.remove', ['photoName' => $photo->id])}}" method="post">
+                                    <form action="{{route('admin.photos.remove', ['photo' => $photo->id])}}" method="post">
                                         @csrf
-                                        <input type="hidden" name="photoName">
+                                        <input type="hidden" name="photoName" value="{{$photo->image}}">
                                         <button class="btn btn-sm badge badge-danger" type="submit">Excluir</button>
                                     </form>
                                 </div>

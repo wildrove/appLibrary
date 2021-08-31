@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::resource('/rents',      RentController::class);
             Route::resource('/books',      BookController::class);
             Route::resource('/categories', CategoryController::class);
-            Route::post('/photos/remove/{photoName}', [PhotoRemoveController::class, 'removePhoto'])->name('photos.remove');
+            Route::post('/photos/remove', [PhotoRemoveController::class, 'removePhoto'])->name('photos.remove');
 
         });
 
