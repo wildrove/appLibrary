@@ -64,8 +64,14 @@
          <div class="form-field col-lg-6">
             <label class="label mb-4" for="user_type">TIPO USUÁRIO</label>
             <select name="user_type" class="input-text js-input">
-                <option value="student" selected="">Estudante</option>
-                <option value="administrator">Admnistrador</option>
+                @if($user->user_type === 'student'){
+                    <option value="student" selected="">Estudante</option>
+                    <option value="administrator">Admnistrador</option>
+                }
+                @elseif ($user->user_type != 'student')
+                <option value="administrator" selected="">Admnistrador</option>
+                <option value="student">Estudante</option>
+                @endif
             </select>
           </div>
 

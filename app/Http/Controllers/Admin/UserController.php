@@ -85,8 +85,11 @@ class UserController extends Controller
         $user = \App\Models\User::find($user);
         $user->update($data);
 
-        $userImage = $this->uploadedImage($request, 'image');
-        $user->photos()->createMany($userImage);
+        if($request->hasFile('photos')){
+            $userImage = $this->uploadedImage($request, 'image');
+            $user->photos()->createMany($userImage);
+        }
+
 
         flash('Usuário Atualizado com Sucesso !')->success();
         return redirect()->route('admin.users.index');

@@ -12,6 +12,7 @@ class PhotoRemoveController extends Controller
 {
     public function removePhoto(Request $request)
     {
+        dd($request->all());
 
         $photo = $request->all('photoName');
         $photo = implode(" ", $photo);
