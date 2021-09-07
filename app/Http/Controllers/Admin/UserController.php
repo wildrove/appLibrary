@@ -38,6 +38,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+
         $user = \App\Models\User::create($request->all());
 
         $userImages = $this->uploadedImage($request, 'image');
@@ -86,10 +87,14 @@ class UserController extends Controller
         $user->update($data);
 
         if($request->hasFile('photos')){
-            $userImage = $this->uploadedImage($request, 'image');
-            $user->photos()->createMany($userImage);
-        }
+            $userImages = $this->uploadedImage($request, 'image');
 
+            foreach($userImages as $image){
+                $photos[] = ['image' => substr($image['image'], 6)];
+            }
+
+            $user->photos()->createMany($photos);
+        }
 
         flash('Usuário Atualizado com Sucesso !')->success();
         return redirect()->route('admin.users.index');
@@ -120,7 +125,6 @@ class UserController extends Controller
             foreach($images as $image){
                 $uploadedImages[] = [$userPhotoColumn => $image->store('users', 'public')];
             }
-
             return $uploadedImages;
         }
 

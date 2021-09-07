@@ -97,24 +97,25 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            @foreach($user->photos as $photo)
-                                <div class="col-md-4">
-                                    <img src="{{asset('storage/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail">
 
-                                    <form action="{{route('admin.photos.remove', ['photo' => $photo->id])}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="photoName" value="{{$photo->image}}">
-                                        <button class="btn btn-sm badge badge-danger" type="submit">Excluir</button>
-                                    </form>
-                                </div>
-                            @endforeach
+                    <form action="{{route('admin.photos.remove')}}" method="post">
+                        <div class="modal-body">
+                            <div class="row">
+                                @foreach($user->photos as $photo)
+                                    <div class="col-md-4 mt-2">
+                                        <img src="{{asset('storage/users/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail" style="height: 80px">
+                                            @csrf
+                                        <input class="form-check-input" type="checkbox" name="photoName[]" value="{{$photo->image}}">
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" type="submit">Excluir</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
