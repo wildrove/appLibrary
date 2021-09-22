@@ -103,7 +103,7 @@
                             <div class="row">
                                 @foreach($user->photos as $photo)
                                     <div class="col-md-4 mt-2">
-                                        <img src="{{asset('storage/users/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail" style="height: 80px">
+                                        <img src="{{asset('storage/users/' . $photo->image)}}" alt="" class="img-fluid img-thumbnail" style="height: 80px; width: 150px">
                                             @csrf
                                         <input class="form-check-input" type="checkbox" name="photoName[]" value="{{$photo->image}}">
                                     </div>

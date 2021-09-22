@@ -25,10 +25,9 @@
                             <li class="nav-item">
                                 <a class="nav-link @if(request()->is('admin/books*')) active @endif" href="{{route('admin.books.index')}}">Livros</a>
                             </li>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @if(request()->is('admin/categories*')) active @endif" href="{{route('admin.categories.index')}}">Categorias</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(request()->is('admin/categories*')) active @endif" href="{{route('admin.categories.index')}}">Categorias</a>
+                            </li>
                         </ul>
                         <div class="d-flex ml-auto">
                             <ul class="navbar-nav mb-lg-0">
@@ -54,7 +53,7 @@
 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" href="#" id="dropdownProfile" role="button" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i>
+                                        <img src="https://www.kindpng.com/picc/m/57-575127_one-student-cartoon-png-transparent-png.png" alt="..." class="img-fluid img-thumbnail rounded-circle" style="width: 30px; height: 30px">
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
                                         <li>
