@@ -57,8 +57,11 @@
          </div>
 
          <div class="form-field col-lg-6">
-            <input class="input-text js-input mt-2" type="file" name="photos[]" multiple value="{{old('photos[]')}}">
-            <label class="label mb-4 pb-md-2" for="password">Selecionar Imagens</label>
+            <input class="input-text js-input mt-2 @error('photos.*') is-invalid @enderror" type="file" name="photos[]" multiple value="{{old('photos[]')}}">
+            <label class="label mb-4 pb-md-2" for="">Selecionar Imagens</label>
+            @error('photos.*')
+                <span class="invalid-feedback">{{$message}}</span>
+            @enderror
         </div>
 
          <div class="form-field col-lg-6">
