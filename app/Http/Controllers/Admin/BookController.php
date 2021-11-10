@@ -52,9 +52,15 @@ class BookController extends Controller
     {
 
         $data = $request->all();
+        $categories = $request->get('category', null);
 
         $book = $this->book->create($data);
-        $bookCategory = $book->categories()->sync($data['category']);
+        
+        if(is_null($categories)){
+            $bookCategory = $book->categories()->sync($categories);
+        }
+        $bookCategory = $book->categories()->sync($categories);
+
         flash('Livro Criado com sucesso !')->success();
 
         return redirect()->route('admin.books.index');

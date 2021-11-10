@@ -31,6 +31,7 @@ class UserRequest extends FormRequest
             'phone_number' =>    'required',
             'email'        =>    'required',
             'password'     =>    'required',
+            'photos.*'       =>    'image'
         ];
     }
 
@@ -39,7 +40,8 @@ class UserRequest extends FormRequest
         return [
             'required' => 'Este campo é obrigatório.',
             'min'      => 'Este campo deve ter no mínimo :min caracteres.',
-            'max'      => 'Este campo deve ter no máximo :max caracteres.'
+            'max'      => 'Este campo deve ter no máximo :max caracteres.',
+            'image'    => 'O arquivo selecionado não é uma imagem válida !'
         ];
     }
 }

@@ -60,11 +60,6 @@
             @enderror   
         </div>
 
-        <div class="form-field col-lg-6 ">
-            <input class="input-text js-input p-3 @error('name') is-invalid @enderror" type="text" name="slug" value="{{$book->slug}}">
-            <label class="label mb-4 pb-md-2" for="slug">SLUG DO LIVRO</label>
-         </div>
-
         <div class="form-field col-lg-12">
             <input class="submit-btn" type="submit" value="Salvar">
          </div>

@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\RentController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PhotoRemoveController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::resource('/rents',      RentController::class);
             Route::resource('/books',      BookController::class);
             Route::resource('/categories', CategoryController::class);
+            Route::post('/photos/remove', [PhotoRemoveController::class, 'removePhoto'])->name('photos.remove');
 
         });
 
