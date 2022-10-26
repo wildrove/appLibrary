@@ -7,13 +7,8 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
-use Illuminate\Database\Concerns\ExplainsQueries;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\RecordsNotFoundException;
-use Illuminate\Pagination\CursorPaginationException;
-use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -28,10 +23,7 @@ use ReflectionMethod;
  */
 class Builder
 {
-    use Concerns\QueriesRelationships, ExplainsQueries, ForwardsCalls;
-    use BuildsQueries {
-        sole as baseSole;
-    }
+    use BuildsQueries, Concerns\QueriesRelationships, ForwardsCalls;
 
     /**
      * The base query builder instance.
@@ -81,25 +73,8 @@ class Builder
      * @var string[]
      */
     protected $passthru = [
-        'average',
-        'avg',
-        'count',
-        'dd',
-        'doesntExist',
-        'dump',
-        'exists',
-        'getBindings',
-        'getConnection',
-        'getGrammar',
-        'insert',
-        'insertGetId',
-        'insertOrIgnore',
-        'insertUsing',
-        'max',
-        'min',
-        'raw',
-        'sum',
-        'toSql',
+        'insert', 'insertOrIgnore', 'insertGetId', 'insertUsing', 'getBindings', 'toSql', 'dump', 'dd',
+        'exists', 'doesntExist', 'count', 'min', 'max', 'avg', 'average', 'sum', 'getConnection', 'raw', 'getGrammar',
     ];
 
     /**
@@ -212,10 +187,6 @@ class Builder
      */
     public function whereKey($id)
     {
-        if ($id instanceof Model) {
-            $id = $id->getKey();
-        }
-
         if (is_array($id) || $id instanceof Arrayable) {
             $this->query->whereIn($this->model->getQualifiedKeyName(), $id);
 
@@ -237,10 +208,6 @@ class Builder
      */
     public function whereKeyNot($id)
     {
-        if ($id instanceof Model) {
-            $id = $id->getKey();
-        }
-
         if (is_array($id) || $id instanceof Arrayable) {
             $this->query->whereNotIn($this->model->getQualifiedKeyName(), $id);
 
@@ -257,7 +224,7 @@ class Builder
     /**
      * Add a basic where clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -279,11 +246,11 @@ class Builder
     /**
      * Add a basic where clause to the query, and return the first result.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Model|static|null
+     * @return \Illuminate\Database\Eloquent\Model|static
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
@@ -293,7 +260,7 @@ class Builder
     /**
      * Add an "or where" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return $this
@@ -310,7 +277,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return $this
      */
     public function latest($column = null)
@@ -327,7 +294,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return $this
      */
     public function oldest($column = null)
@@ -351,14 +318,8 @@ class Builder
     {
         $instance = $this->newModelInstance();
 
-        return $instance->newCollection(array_map(function ($item) use ($items, $instance) {
-            $model = $instance->newFromBuilder($item);
-
-            if (count($items) > 1) {
-                $model->preventsLazyLoading = Model::preventsLazyLoading();
-            }
-
-            return $model;
+        return $instance->newCollection(array_map(function ($item) use ($instance) {
+            return $instance->newFromBuilder($item);
         }, $items));
     }
 
@@ -542,33 +503,15 @@ class Builder
     }
 
     /**
-     * Execute the query and get the first result if it's the sole matching record.
-     *
-     * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \Illuminate\Database\MultipleRecordsFoundException
-     */
-    public function sole($columns = ['*'])
-    {
-        try {
-            return $this->baseSole($columns);
-        } catch (RecordsNotFoundException $exception) {
-            throw (new ModelNotFoundException)->setModel(get_class($this->model));
-        }
-    }
-
-    /**
      * Get a single column's value from the first result of a query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return mixed
      */
     public function value($column)
     {
         if ($result = $this->first([$column])) {
-            return $result->{Str::afterLast($column, '.')};
+            return $result->{$column};
         }
     }
 
@@ -745,7 +688,7 @@ class Builder
     /**
      * Get an array with the values of a given column.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  string|null  $key
      * @return \Illuminate\Support\Collection
      */
@@ -821,78 +764,6 @@ class Builder
     }
 
     /**
-     * Paginate the given query into a cursor paginator.
-     *
-     * @param  int|null  $perPage
-     * @param  array  $columns
-     * @param  string  $cursorName
-     * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
-     * @throws \Illuminate\Pagination\CursorPaginationException
-     */
-    public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
-    {
-        $cursor = $cursor ?: CursorPaginator::resolveCurrentCursor($cursorName);
-
-        $perPage = $perPage ?: $this->model->getPerPage();
-
-        $orders = $this->ensureOrderForCursorPagination(! is_null($cursor) && $cursor->pointsToPreviousItems());
-
-        $orderDirection = $orders->first()['direction'] ?? 'asc';
-
-        $comparisonOperator = $orderDirection === 'asc' ? '>' : '<';
-
-        $parameters = $orders->pluck('column')->toArray();
-
-        if (! is_null($cursor)) {
-            if (count($parameters) === 1) {
-                $this->where($column = $parameters[0], $comparisonOperator, $cursor->parameter($column));
-            } elseif (count($parameters) > 1) {
-                $this->whereRowValues($parameters, $comparisonOperator, $cursor->parameters($parameters));
-            }
-        }
-
-        $this->take($perPage + 1);
-
-        return $this->cursorPaginator($this->get($columns), $perPage, $cursor, [
-            'path' => Paginator::resolveCurrentPath(),
-            'cursorName' => $cursorName,
-            'parameters' => $parameters,
-        ]);
-    }
-
-    /**
-     * Ensure the proper order by required for cursor pagination.
-     *
-     * @param  bool  $shouldReverse
-     * @return \Illuminate\Support\Collection
-     *
-     * @throws \Illuminate\Pagination\CursorPaginationException
-     */
-    protected function ensureOrderForCursorPagination($shouldReverse = false)
-    {
-        $orderDirections = collect($this->query->orders)->pluck('direction')->unique();
-
-        if ($orderDirections->count() > 1) {
-            throw new CursorPaginationException('Only a single order by direction is supported when using cursor pagination.');
-        }
-
-        if ($orderDirections->count() === 0) {
-            $this->enforceOrderBy();
-        }
-
-        if ($shouldReverse) {
-            $this->query->orders = collect($this->query->orders)->map(function ($order) {
-                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
-
-                return $order;
-            })->toArray();
-        }
-
-        return collect($this->query->orders);
-    }
-
-    /**
      * Save a new model and return the instance.
      *
      * @param  array  $attributes
@@ -961,7 +832,7 @@ class Builder
     /**
      * Increment a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -976,7 +847,7 @@ class Builder
     /**
      * Decrement a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1139,9 +1010,7 @@ class Builder
             // Next we'll pass the scope callback to the callScope method which will take
             // care of grouping the "wheres" properly so the logical order doesn't get
             // messed up when adding scopes. Then we'll return back out the builder.
-            $builder = $builder->callNamedScope(
-                $scope, Arr::wrap($parameters)
-            );
+            $builder = $builder->callNamedScope($scope, (array) $parameters);
         }
 
         return $builder;
@@ -1327,19 +1196,6 @@ class Builder
     }
 
     /**
-     * Set the relationships that should be eager loaded while removing any previously added eager loading specifications.
-     *
-     * @param  mixed  $relations
-     * @return $this
-     */
-    public function withOnly($relations)
-    {
-        $this->eagerLoad = [];
-
-        return $this->with($relations);
-    }
-
-    /**
      * Create a new instance of the model being queried.
      *
      * @param  array  $attributes
@@ -1396,15 +1252,7 @@ class Builder
     protected function createSelectWithConstraint($name)
     {
         return [explode(':', $name)[0], static function ($query) use ($name) {
-            $query->select(array_map(static function ($column) use ($query) {
-                if (Str::contains($column, '.')) {
-                    return $column;
-                }
-
-                return $query instanceof BelongsToMany
-                        ? $query->getRelated()->getTable().'.'.$column
-                        : $column;
-            }, explode(',', explode(':', $name)[1])));
+            $query->select(explode(',', explode(':', $name)[1]));
         }];
     }
 
@@ -1542,7 +1390,7 @@ class Builder
     /**
      * Qualify the given column name by the model's table.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return string
      */
     public function qualifyColumn($column)
@@ -1633,13 +1481,11 @@ class Builder
         }
 
         if (static::hasGlobalMacro($method)) {
-            $callable = static::$macros[$method];
-
-            if ($callable instanceof Closure) {
-                $callable = $callable->bindTo($this, static::class);
+            if (static::$macros[$method] instanceof Closure) {
+                return call_user_func_array(static::$macros[$method]->bindTo($this, static::class), $parameters);
             }
 
-            return $callable(...$parameters);
+            return call_user_func_array(static::$macros[$method], $parameters);
         }
 
         if ($this->hasNamedScope($method)) {
@@ -1680,13 +1526,11 @@ class Builder
             static::throwBadMethodCallException($method);
         }
 
-        $callable = static::$macros[$method];
-
-        if ($callable instanceof Closure) {
-            $callable = $callable->bindTo(null, static::class);
+        if (static::$macros[$method] instanceof Closure) {
+            return call_user_func_array(Closure::bind(static::$macros[$method], null, static::class), $parameters);
         }
 
-        return $callable(...$parameters);
+        return call_user_func_array(static::$macros[$method], $parameters);
     }
 
     /**
@@ -1709,16 +1553,6 @@ class Builder
                 static::macro($method->name, $method->invoke($mixin));
             }
         }
-    }
-
-    /**
-     * Clone the Eloquent query builder.
-     *
-     * @return static
-     */
-    public function clone()
-    {
-        return clone $this;
     }
 
     /**

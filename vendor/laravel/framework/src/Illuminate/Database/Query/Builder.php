@@ -6,14 +6,11 @@ use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
-use Illuminate\Database\Concerns\ExplainsQueries;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Database\Query\Processors\Processor;
-use Illuminate\Pagination\CursorPaginationException;
-use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -26,7 +23,7 @@ use RuntimeException;
 
 class Builder
 {
-    use BuildsQueries, ExplainsQueries, ForwardsCalls, Macroable {
+    use BuildsQueries, ForwardsCalls, Macroable {
         __call as macroCall;
     }
 
@@ -183,13 +180,6 @@ class Builder
     public $lock;
 
     /**
-     * The callbacks that should be invoked before the query is executed.
-     *
-     * @var array
-     */
-    public $beforeQueryCallbacks = [];
-
-    /**
      * All of the available clause operators.
      *
      * @var string[]
@@ -204,7 +194,7 @@ class Builder
     ];
 
     /**
-     * Whether to use write pdo for the select.
+     * Whether use write pdo for select.
      *
      * @var bool
      */
@@ -253,7 +243,7 @@ class Builder
     /**
      * Add a subselect expression to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|$this|string  $query
      * @param  string  $as
      * @return $this
      *
@@ -500,7 +490,7 @@ class Builder
     /**
      * Add a subquery join clause to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|string  $first
      * @param  string|null  $operator
@@ -553,7 +543,7 @@ class Builder
     /**
      * Add a subquery left join to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|string  $first
      * @param  string|null  $operator
@@ -596,7 +586,7 @@ class Builder
     /**
      * Add a subquery right join to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @param  string  $as
      * @param  \Closure|string  $first
      * @param  string|null  $operator
@@ -761,7 +751,7 @@ class Builder
         );
 
         if (! $value instanceof Expression) {
-            $this->addBinding($this->flattenValue($value), 'where');
+            $this->addBinding($value, 'where');
         }
 
         return $this;
@@ -1095,7 +1085,7 @@ class Builder
     /**
      * Add an "or where null" clause to the query.
      *
-     * @param  string|array  $column
+     * @param  string  $column
      * @return $this
      */
     public function orWhereNull($column)
@@ -1130,7 +1120,7 @@ class Builder
 
         $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'not');
 
-        $this->addBinding(array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'where');
+        $this->addBinding($this->cleanBindings($values), 'where');
 
         return $this;
     }
@@ -1253,8 +1243,6 @@ class Builder
             $value, $operator, func_num_args() === 2
         );
 
-        $value = $this->flattenValue($value);
-
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('Y-m-d');
         }
@@ -1294,8 +1282,6 @@ class Builder
             $value, $operator, func_num_args() === 2
         );
 
-        $value = $this->flattenValue($value);
-
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('H:i:s');
         }
@@ -1334,8 +1320,6 @@ class Builder
         [$value, $operator] = $this->prepareValueAndOperator(
             $value, $operator, func_num_args() === 2
         );
-
-        $value = $this->flattenValue($value);
 
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('d');
@@ -1380,8 +1364,6 @@ class Builder
             $value, $operator, func_num_args() === 2
         );
 
-        $value = $this->flattenValue($value);
-
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('m');
         }
@@ -1424,8 +1406,6 @@ class Builder
         [$value, $operator] = $this->prepareValueAndOperator(
             $value, $operator, func_num_args() === 2
         );
-
-        $value = $this->flattenValue($value);
 
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('Y');
@@ -1735,7 +1715,7 @@ class Builder
         $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
         if (! $value instanceof Expression) {
-            $this->addBinding((int) $this->flattenValue($value));
+            $this->addBinding($value);
         }
 
         return $this;
@@ -1884,7 +1864,7 @@ class Builder
         $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
         if (! $value instanceof Expression) {
-            $this->addBinding($this->flattenValue($value), 'having');
+            $this->addBinding($value, 'having');
         }
 
         return $this;
@@ -1922,7 +1902,7 @@ class Builder
 
         $this->havings[] = compact('type', 'column', 'values', 'boolean', 'not');
 
-        $this->addBinding(array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'having');
+        $this->addBinding($this->cleanBindings($values), 'having');
 
         return $this;
     }
@@ -2074,7 +2054,7 @@ class Builder
     {
         $property = $this->unions ? 'unionOffset' : 'offset';
 
-        $this->$property = max(0, (int) $value);
+        $this->$property = max(0, $value);
 
         return $this;
     }
@@ -2264,41 +2244,12 @@ class Builder
     }
 
     /**
-     * Register a closure to be invoked before the query is executed.
-     *
-     * @param  callable  $callback
-     * @return $this
-     */
-    public function beforeQuery(callable $callback)
-    {
-        $this->beforeQueryCallbacks[] = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Invoke the "before query" modification callbacks.
-     *
-     * @return void
-     */
-    public function applyBeforeQueryCallbacks()
-    {
-        foreach ($this->beforeQueryCallbacks as $callback) {
-            $callback($this);
-        }
-
-        $this->beforeQueryCallbacks = [];
-    }
-
-    /**
      * Get the SQL representation of the query.
      *
      * @return string
      */
     public function toSql()
     {
-        $this->applyBeforeQueryCallbacks();
-
         return $this->grammar->compileSelect($this);
     }
 
@@ -2396,75 +2347,6 @@ class Builder
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
-    }
-
-    /**
-     * Get a paginator only supporting simple next and previous links.
-     *
-     * This is more efficient on larger data-sets, etc.
-     *
-     * @param  int|null  $perPage
-     * @param  array  $columns
-     * @param  string  $cursorName
-     * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
-     * @throws \Illuminate\Pagination\CursorPaginationException
-     */
-    public function cursorPaginate($perPage = 15, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
-    {
-        $cursor = $cursor ?: CursorPaginator::resolveCurrentCursor($cursorName);
-
-        $orders = $this->ensureOrderForCursorPagination(! is_null($cursor) && $cursor->pointsToPreviousItems());
-
-        $orderDirection = $orders->first()['direction'] ?? 'asc';
-
-        $comparisonOperator = $orderDirection === 'asc' ? '>' : '<';
-
-        $parameters = $orders->pluck('column')->toArray();
-
-        if (! is_null($cursor)) {
-            if (count($parameters) === 1) {
-                $this->where($column = $parameters[0], $comparisonOperator, $cursor->parameter($column));
-            } elseif (count($parameters) > 1) {
-                $this->whereRowValues($parameters, $comparisonOperator, $cursor->parameters($parameters));
-            }
-        }
-
-        $this->limit($perPage + 1);
-
-        return $this->cursorPaginator($this->get($columns), $perPage, $cursor, [
-            'path' => Paginator::resolveCurrentPath(),
-            'cursorName' => $cursorName,
-            'parameters' => $parameters,
-        ]);
-    }
-
-    /**
-     * Ensure the proper order by required for cursor pagination.
-     *
-     * @param  bool  $shouldReverse
-     * @return \Illuminate\Support\Collection
-     * @throws \Illuminate\Pagination\CursorPaginationException
-     */
-    protected function ensureOrderForCursorPagination($shouldReverse = false)
-    {
-        $this->enforceOrderBy();
-
-        $orderDirections = collect($this->orders)->pluck('direction')->unique();
-
-        if ($orderDirections->count() > 1) {
-            throw new CursorPaginationException('Only a single order by direction is supported when using cursor pagination.');
-        }
-
-        if ($shouldReverse) {
-            $this->orders = collect($this->orders)->map(function ($order) {
-                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
-
-                return $order;
-            })->toArray();
-        }
-
-        return collect($this->orders);
     }
 
     /**
@@ -2699,8 +2581,6 @@ class Builder
      */
     public function exists()
     {
-        $this->applyBeforeQueryCallbacks();
-
         $results = $this->connection->select(
             $this->grammar->compileExists($this), $this->getBindings(), ! $this->useWritePdo
         );
@@ -2826,8 +2706,8 @@ class Builder
      */
     public function aggregate($function, $columns = ['*'])
     {
-        $results = $this->cloneWithout($this->unions || $this->havings ? [] : ['columns'])
-                        ->cloneWithoutBindings($this->unions || $this->havings ? [] : ['select'])
+        $results = $this->cloneWithout($this->unions ? [] : ['columns'])
+                        ->cloneWithoutBindings($this->unions ? [] : ['select'])
                         ->setAggregate($function, $columns)
                         ->get($columns);
 
@@ -2939,8 +2819,6 @@ class Builder
             }
         }
 
-        $this->applyBeforeQueryCallbacks();
-
         // Finally, we will run this query against the database connection and return
         // the results. We will need to also flatten these bindings before running
         // the query so they are all in one huge, flattened array for execution.
@@ -2971,8 +2849,6 @@ class Builder
             }
         }
 
-        $this->applyBeforeQueryCallbacks();
-
         return $this->connection->affectingStatement(
             $this->grammar->compileInsertOrIgnore($this, $values),
             $this->cleanBindings(Arr::flatten($values, 1))
@@ -2988,8 +2864,6 @@ class Builder
      */
     public function insertGetId(array $values, $sequence = null)
     {
-        $this->applyBeforeQueryCallbacks();
-
         $sql = $this->grammar->compileInsertGetId($this, $values, $sequence);
 
         $values = $this->cleanBindings($values);
@@ -3006,8 +2880,6 @@ class Builder
      */
     public function insertUsing(array $columns, $query)
     {
-        $this->applyBeforeQueryCallbacks();
-
         [$sql, $bindings] = $this->createSub($query);
 
         return $this->connection->affectingStatement(
@@ -3024,8 +2896,6 @@ class Builder
      */
     public function update(array $values)
     {
-        $this->applyBeforeQueryCallbacks();
-
         $sql = $this->grammar->compileUpdate($this, $values);
 
         return $this->connection->update($sql, $this->cleanBindings(
@@ -3082,8 +2952,6 @@ class Builder
         if (is_null($update)) {
             $update = array_keys(reset($values));
         }
-
-        $this->applyBeforeQueryCallbacks();
 
         $bindings = $this->cleanBindings(array_merge(
             Arr::flatten($values, 1),
@@ -3159,8 +3027,6 @@ class Builder
             $this->where($this->from.'.id', '=', $id);
         }
 
-        $this->applyBeforeQueryCallbacks();
-
         return $this->connection->delete(
             $this->grammar->compileDelete($this), $this->cleanBindings(
                 $this->grammar->prepareBindingsForDelete($this->bindings)
@@ -3175,8 +3041,6 @@ class Builder
      */
     public function truncate()
     {
-        $this->applyBeforeQueryCallbacks();
-
         foreach ($this->grammar->compileTruncate($this) as $sql => $bindings) {
             $this->connection->statement($sql, $bindings);
         }
@@ -3301,17 +3165,6 @@ class Builder
         return array_values(array_filter($bindings, function ($binding) {
             return ! $binding instanceof Expression;
         }));
-    }
-
-    /**
-     * Get a scalar type value from an unknown type of input.
-     *
-     * @param  mixed  $value
-     * @return mixed
-     */
-    protected function flattenValue($value)
-    {
-        return is_array($value) ? head(Arr::flatten($value)) : $value;
     }
 
     /**

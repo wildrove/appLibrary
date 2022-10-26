@@ -4,7 +4,6 @@ namespace Illuminate\View\Compilers;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Traits\ReflectsClosures;
 use InvalidArgumentException;
 
 class BladeCompiler extends Compiler implements CompilerInterface
@@ -23,8 +22,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
         Concerns\CompilesLoops,
         Concerns\CompilesRawPhp,
         Concerns\CompilesStacks,
-        Concerns\CompilesTranslations,
-        ReflectsClosures;
+        Concerns\CompilesTranslations;
 
     /**
      * All of the registered extensions.
@@ -102,7 +100,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
     protected $echoFormat = 'e(%s)';
 
     /**
-     * Array of footer lines to be added to the template.
+     * Array of footer lines to be added to template.
      *
      * @var array
      */
@@ -155,11 +153,9 @@ class BladeCompiler extends Compiler implements CompilerInterface
                 $contents = $this->appendFilePath($contents);
             }
 
-            $this->ensureCompiledDirectoryExists(
-                $compiledPath = $this->getCompiledPath($this->getPath())
+            $this->files->put(
+                $this->getCompiledPath($this->getPath()), $contents
             );
-
-            $this->files->put($compiledPath, $contents);
         }
     }
 
@@ -255,14 +251,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
             $result = $this->addFooters($result);
         }
 
-        if (! empty($this->echoHandlers)) {
-            $result = $this->addBladeCompilerVariable($result);
-        }
-
-        return str_replace(
-            ['##BEGIN-COMPONENT-CLASS##', '##END-COMPONENT-CLASS##'],
-            '',
-            $result);
+        return $result;
     }
 
     /**
@@ -457,8 +446,6 @@ class BladeCompiler extends Compiler implements CompilerInterface
      */
     protected function callCustomDirective($name, $value)
     {
-        $value = $value ?? '';
-
         if (Str::startsWith($value, '(') && Str::endsWith($value, ')')) {
             $value = Str::substr($value, 1, -1);
         }
@@ -588,9 +575,9 @@ class BladeCompiler extends Compiler implements CompilerInterface
     {
         foreach ($components as $key => $value) {
             if (is_numeric($key)) {
-                $this->component($value, null, $prefix);
+                static::component($value, null, $prefix);
             } else {
-                $this->component($key, $value, $prefix);
+                static::component($key, $value, $prefix);
             }
         }
     }

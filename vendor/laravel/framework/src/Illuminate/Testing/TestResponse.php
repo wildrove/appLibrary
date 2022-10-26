@@ -14,7 +14,6 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 use Illuminate\Testing\Assert as PHPUnit;
 use Illuminate\Testing\Constraints\SeeInOrder;
-use Illuminate\Testing\Fluent\AssertableJson;
 use LogicException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -235,7 +234,7 @@ class TestResponse implements ArrayAccess
     }
 
     /**
-     * Asserts that the response does not contain the given header.
+     * Asserts that the response does not contains the given header.
      *
      * @param  string  $headerName
      * @return $this
@@ -262,54 +261,6 @@ class TestResponse implements ArrayAccess
         );
 
         return $this;
-    }
-
-    /**
-     * Assert that the response offers a file download.
-     *
-     * @param  string|null  $filename
-     * @return $this
-     */
-    public function assertDownload($filename = null)
-    {
-        $contentDisposition = explode(';', $this->headers->get('content-disposition'));
-
-        if (trim($contentDisposition[0]) !== 'attachment') {
-            PHPUnit::fail(
-                'Response does not offer a file download.'.PHP_EOL.
-                'Disposition ['.trim($contentDisposition[0]).'] found in header, [attachment] expected.'
-            );
-        }
-
-        if (! is_null($filename)) {
-            if (isset($contentDisposition[1]) &&
-                trim(explode('=', $contentDisposition[1])[0]) !== 'filename') {
-                PHPUnit::fail(
-                    'Unsupported Content-Disposition header provided.'.PHP_EOL.
-                    'Disposition ['.trim(explode('=', $contentDisposition[1])[0]).'] found in header, [filename] expected.'
-                );
-            }
-
-            $message = "Expected file [{$filename}] is not present in Content-Disposition header.";
-
-            if (! isset($contentDisposition[1])) {
-                PHPUnit::fail($message);
-            } else {
-                PHPUnit::assertSame(
-                    $filename,
-                    isset(explode('=', $contentDisposition[1])[1])
-                        ? trim(explode('=', $contentDisposition[1])[1])
-                        : '',
-                    $message
-                );
-
-                return $this;
-            }
-        } else {
-            PHPUnit::assertTrue(true);
-
-            return $this;
-        }
     }
 
     /**
@@ -376,7 +327,7 @@ class TestResponse implements ArrayAccess
         $expiresAt = Carbon::createFromTimestamp($cookie->getExpiresTime());
 
         PHPUnit::assertTrue(
-            0 !== $cookie->getExpiresTime() && $expiresAt->lessThan(Carbon::now()),
+            $expiresAt->lessThan(Carbon::now()),
             "Cookie [{$cookieName}] is not expired, it expires at [{$expiresAt}]."
         );
 
@@ -399,7 +350,7 @@ class TestResponse implements ArrayAccess
         $expiresAt = Carbon::createFromTimestamp($cookie->getExpiresTime());
 
         PHPUnit::assertTrue(
-            0 === $cookie->getExpiresTime() || $expiresAt->greaterThan(Carbon::now()),
+            $expiresAt->greaterThan(Carbon::now()),
             "Cookie [{$cookieName}] is expired, it expired at [{$expiresAt}]."
         );
 
@@ -407,7 +358,7 @@ class TestResponse implements ArrayAccess
     }
 
     /**
-     * Asserts that the response does not contain the given cookie.
+     * Asserts that the response does not contains the given cookie.
      *
      * @param  string  $cookieName
      * @return $this
@@ -438,21 +389,17 @@ class TestResponse implements ArrayAccess
     }
 
     /**
-     * Assert that the given string or array of strings are contained within the response.
+     * Assert that the given string is contained within the response.
      *
-     * @param  string|array  $value
+     * @param  string  $value
      * @param  bool  $escape
      * @return $this
      */
     public function assertSee($value, $escape = true)
     {
-        $value = Arr::wrap($value);
+        $value = $escape ? e($value) : $value;
 
-        $values = $escape ? array_map('e', ($value)) : $value;
-
-        foreach ($values as $value) {
-            PHPUnit::assertStringContainsString((string) $value, $this->getContent());
-        }
+        PHPUnit::assertStringContainsString((string) $value, $this->getContent());
 
         return $this;
     }
@@ -474,23 +421,17 @@ class TestResponse implements ArrayAccess
     }
 
     /**
-     * Assert that the given string or array of strings are contained within the response text.
+     * Assert that the given string is contained within the response text.
      *
-     * @param  string|array  $value
+     * @param  string  $value
      * @param  bool  $escape
      * @return $this
      */
     public function assertSeeText($value, $escape = true)
     {
-        $value = Arr::wrap($value);
+        $value = $escape ? e($value) : $value;
 
-        $values = $escape ? array_map('e', ($value)) : $value;
-
-        tap(strip_tags($this->getContent()), function ($content) use ($values) {
-            foreach ($values as $value) {
-                PHPUnit::assertStringContainsString((string) $value, $content);
-            }
-        });
+        PHPUnit::assertStringContainsString((string) $value, strip_tags($this->getContent()));
 
         return $this;
     }
@@ -512,43 +453,33 @@ class TestResponse implements ArrayAccess
     }
 
     /**
-     * Assert that the given string or array of strings are not contained within the response.
+     * Assert that the given string is not contained within the response.
      *
-     * @param  string|array  $value
+     * @param  string  $value
      * @param  bool  $escape
      * @return $this
      */
     public function assertDontSee($value, $escape = true)
     {
-        $value = Arr::wrap($value);
+        $value = $escape ? e($value) : $value;
 
-        $values = $escape ? array_map('e', ($value)) : $value;
-
-        foreach ($values as $value) {
-            PHPUnit::assertStringNotContainsString((string) $value, $this->getContent());
-        }
+        PHPUnit::assertStringNotContainsString((string) $value, $this->getContent());
 
         return $this;
     }
 
     /**
-     * Assert that the given string or array of strings are not contained within the response text.
+     * Assert that the given string is not contained within the response text.
      *
-     * @param  string|array  $value
+     * @param  string  $value
      * @param  bool  $escape
      * @return $this
      */
     public function assertDontSeeText($value, $escape = true)
     {
-        $value = Arr::wrap($value);
+        $value = $escape ? e($value) : $value;
 
-        $values = $escape ? array_map('e', ($value)) : $value;
-
-        tap(strip_tags($this->getContent()), function ($content) use ($values) {
-            foreach ($values as $value) {
-                PHPUnit::assertStringNotContainsString((string) $value, $content);
-            }
-        });
+        PHPUnit::assertStringNotContainsString((string) $value, strip_tags($this->getContent()));
 
         return $this;
     }
@@ -556,25 +487,13 @@ class TestResponse implements ArrayAccess
     /**
      * Assert that the response is a superset of the given JSON.
      *
-     * @param  array|callable  $value
+     * @param  array  $data
      * @param  bool  $strict
      * @return $this
      */
-    public function assertJson($value, $strict = false)
+    public function assertJson(array $data, $strict = false)
     {
-        $json = $this->decodeResponseJson();
-
-        if (is_array($value)) {
-            $json->assertSubset($value, $strict);
-        } else {
-            $assert = AssertableJson::fromAssertableJsonString($json);
-
-            $value($assert);
-
-            if (Arr::isAssoc($assert->toArray())) {
-                $assert->interacted();
-            }
-        }
+        $this->decodeResponseJson()->assertSubset($data, $strict);
 
         return $this;
     }
@@ -753,13 +672,13 @@ class TestResponse implements ArrayAccess
 
         $json = $this->json();
 
-        if (! Arr::has($json, $responseKey)) {
-            PHPUnit::assertTrue(true);
+        if (! array_key_exists($responseKey, $json)) {
+            PHPUnit::assertArrayNotHasKey($responseKey, $json);
 
             return $this;
         }
 
-        $errors = Arr::get($json, $responseKey, []);
+        $errors = $json[$responseKey];
 
         if (is_null($keys) && count($errors) > 0) {
             PHPUnit::fail(
